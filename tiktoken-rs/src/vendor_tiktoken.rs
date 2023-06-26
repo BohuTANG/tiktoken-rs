@@ -615,8 +615,7 @@ impl CoreBPE {
 
         self._decode_native_and_split(encoded).map(|token|
                 // Map each token to a Result<String>
-                String::from_utf8(token)
-                .map_err(|e| anyhow!(e.to_string())))
+        Ok(String::from_utf8_lossy(&token).into_owned()))
     }
 
     /// Tokenize a string and return the decoded tokens using the correct BPE model.

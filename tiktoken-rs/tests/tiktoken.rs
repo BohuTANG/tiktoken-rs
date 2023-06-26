@@ -121,3 +121,13 @@ fn p50k_base_singleton_test() {
     }
     // println!("p50k_base encode/decode 2: {:?}", now.elapsed());
 }
+
+#[test]
+fn incomplete_utf8_test() {
+    let bpe = cl100k_base().unwrap();
+    let tokenized: Result<Vec<_>, _> = bpe
+        .split_by_token_iter("🍌This is a test         with a lot of spaces", true)
+        .collect();
+    let tokenized = tokenized.unwrap();
+    assert_eq!(tokenized.len(), 13);
+}
